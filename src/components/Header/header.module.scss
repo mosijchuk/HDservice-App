@@ -1,0 +1,125 @@
+@import "./../scss/components.module.scss";
+
+.header {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  background-color: $g;
+  height: 65px;
+  padding: 0 15px;
+  z-index: 9999;
+
+  .container {
+    height: 100%;
+  }
+
+  &_wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+
+    &__left {
+      display: flex;
+      align-items: center;
+
+      a {
+        outline: none;
+        display: flex;
+        align-items: center;
+
+        img {
+          height: 38px;
+        }
+      }
+
+      .load,
+      .loadManagers {
+        display: flex;
+        align-items: center;
+        margin-left: 16px;
+
+        p {
+          margin-right: 16px;
+        }
+
+        .item {
+          position: relative;
+          display: flex;
+          align-items: center;
+          margin-left: 10px;
+          padding-left: 10px;
+
+          &:before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            border-left: 1px solid rgba(34, 34, 34, 0.2);
+          }
+
+          &:first-child {
+            margin-left: 0;
+            padding-left: 0;
+
+            &:before {
+              display: none;
+            }
+          }
+
+          p {
+            font-size: 13px;
+            margin-right: 3px;
+          }
+
+          span {
+            position: relative;
+            font-weight: 700;
+            font-size: 13px;
+
+            &:after {
+              content: "";
+              position: absolute;
+              bottom: 1px;
+              left: 0;
+              right: 0;
+              border-bottom: 1px solid rgba(34, 34, 34, 0.2);
+            }
+          }
+        }
+      }
+    }
+
+    &__right {
+      .account {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+
+        .userName {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-end;
+
+          small {
+            font-size: 9px;
+          }
+        }
+
+        .userPhoto {
+          display: flex;
+          align-items: center;
+          margin-left: 12px;
+
+          img {
+            height: 40px;
+            width: 40px;
+            border-radius: 100%;
+          }
+        }
+      }
+    }
+  }
+}

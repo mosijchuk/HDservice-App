@@ -1,0 +1,14 @@
+@import url("https://fonts.googleapis.com/css?family=Nunito:300,400,700&display=swap&subset=cyrillic");
+@import "./components.module.scss";
+
+body {
+  background-color: $w;
+  font-family: "Nunito";
+  min-width: 1200px;
+}
+
+.app_wrapper {
+  padding-top: 65px;
+  min-height: 100vh;
+  box-sizing: border-box;
+}

@@ -1,0 +1,39 @@
+@import "./../scss/components.module.scss";
+
+.loginWrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+
+  form {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 230px;
+    margin: 15px;
+
+    img.captchaUrl {
+      height: 60px;
+      margin-bottom: 5px;
+    }
+  }
+}
+
+.errorSubmit {
+  color: $red;
+}
+
+.fetchingStatus {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  small {
+    position: absolute;
+  }
+}

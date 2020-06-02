@@ -1,0 +1,36 @@
+@import "./../scss/components.module.scss";
+
+.dashboardWrap {
+  margin-top: 115px;
+  padding-bottom: 50px;
+}
+
+.mainGrid {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-gap: 50px;
+  margin-top: 50px;
+}
+
+.block {
+  border-radius: 5px;
+  border: 1px solid $gline;
+  padding: 30px;
+
+  &.blockSecondary {
+    margin-top: 50px;
+    position: relative;
+    box-sizing: border-box;
+  }
+}
+
+.blockHeader {
+  h2 {
+    margin-bottom: 14px;
+  }
+}
+
+.selectBoxWrap {
+  display: flex;
+  align-items: center;
+}
