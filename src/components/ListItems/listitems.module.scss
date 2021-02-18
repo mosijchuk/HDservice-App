@@ -1,0 +1,55 @@
+@import "./../scss/components.module.scss";
+
+.ListItems {
+  width: 100%;
+  box-shadow: 0 0 10px 10px rgba(62, 71, 192, 0.04);
+
+  .Item {
+    display: grid;
+    grid-template-columns: 1fr 24px 70px;
+    height: 50px;
+    cursor: pointer;
+    margin-bottom: 1px;
+    background-color: $w;
+    transition: all .1s;
+
+    span {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      &.name {
+        justify-content: flex-start;
+        padding-left: 10px;
+      }
+
+      &.note {
+
+      }
+
+      &.params {
+        border-left: 1px solid $g;
+        padding: 0 5px;
+      }
+    }
+
+
+
+    &:hover {
+      background-color: $y;
+
+      span {
+        color: $w;
+      }
+    }
+
+    &.active {
+      background-color: $y;
+
+      span {
+        color: $w;
+      }
+    }
+  }
+}
+
