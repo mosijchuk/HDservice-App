@@ -1,24 +1,21 @@
 import React from "react";
 import Login from "./Login";
-import s from "./Login.module.scss";
 import { connect } from "react-redux";
-import { loginMe } from "../../redux/authReducer";
+import {loginMe} from "../../redux/authReducer";
 import { Redirect } from "react-router-dom";
 
 const LoginContainer = props => {
-  if (props.isLogged) {
-    return <Redirect to="/dashboard" />;
+  if (props.isLogged && props.usersLength && !props.isFetchingStaff) {
+    return <Redirect to="/functions" />;
   }
-  return (
-    <div className={s.loginPage}>
-      <Login {...props} />
-    </div>
-  );
+  return <Login {...props} />;
 };
 
 let mapStateToProps = state => ({
   isLogged: state.auth.isLogged,
-  isFetching: state.auth.isFetching
+  isFetching: state.auth.isFetching,
+  isFetchingStaff: state.dashboard.isFetchingStaff,
+  usersLength: state.dashboard.users.length,
 });
 
 export default connect(mapStateToProps, { loginMe })(LoginContainer);

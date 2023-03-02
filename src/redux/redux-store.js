@@ -4,12 +4,10 @@ import authReducer from "./authReducer";
 import thunkMiddleWare from "redux-thunk";
 import { reducer as formReducer } from "redux-form";
 import appReducer from "./appReducer";
-import congestionReducer from "./congestionReducer";
 import scheduleReducer from "./scheduleReducer";
 
 let reducers = combineReducers({
   dashboard: dashboardReducer,
-  congestion: congestionReducer,
   schedule: scheduleReducer,
   auth: authReducer,
   form: formReducer,

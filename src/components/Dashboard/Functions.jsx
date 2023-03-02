@@ -1,9 +1,9 @@
 import React from 'react'
 import {NavLink} from "react-router-dom";
-import s from "./dashboard.module.scss";
+import s from "./functions.module.scss";
 import TimelineIcon from '@material-ui/icons/Timeline';
 
-export const Dashboard = (props) => {
+export const Functions = (props) => {
 
     return (
         <>
@@ -15,8 +15,8 @@ export const Dashboard = (props) => {
                                 <TimelineIcon />
                             </div>
                             <div className={s.nameWrap}>
-                                <h3>Расчет маршрутов</h3>
-                                <p>Расчет маршрутов и расстояний, поиск сотрудника, даты и времени встречи</p>
+                                <h3>Route calculation</h3>
+                                <p>Calculation of routes and distances, search for an employee, date and time of the meeting</p>
                             </div>
                         </div>
                     </NavLink>

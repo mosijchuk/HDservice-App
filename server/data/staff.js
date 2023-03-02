@@ -2,7 +2,7 @@ const staffBase = [
     {
       "id": 10001,
       "name": "Vadim Zhuravsky",
-      "baseAddress": "Oleny Teligy, 12, Kyiv xccxx                       xsxxsscx   x    xx  xc       xx"
+      "baseAddress": "Oleny Teligy, 12, Kyiv"
     },
     {
       "id": 10002,

@@ -5,7 +5,7 @@ import s from "./notfound.module.scss";
 const NotFound404 = props => {
   return (
     <div className={s.emptyWrap}>
-      <h1>Страница не существует</h1>
+      <h1>Page does not exist</h1>
     </div>
   );
 };

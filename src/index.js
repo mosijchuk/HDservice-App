@@ -10,7 +10,7 @@ import moment from "moment/min/moment-with-locales";
 import Moment from "react-moment";
 
 Moment.globalMoment = moment;
-moment.lang("ru");
+moment.lang('en-gb');
 
 ReactDOM.render(
   <BrowserRouter>

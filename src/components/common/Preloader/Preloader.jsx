@@ -1,16 +1,16 @@
 import React from "react";
-import s from "./Preloader.module.scss";
+import s from "./preloader.module.scss";
 import { lighten, makeStyles, withStyles } from "@material-ui/core/styles";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 const ColorCircularProgress = withStyles({
   root: {
-    color: "#fdcb77"
+    color: "#3E47C0"
   }
 })(CircularProgress);
 
 const Preloader = ({ medium, small, size }) => {
-  const preloaderSize = size || 28;
+  const preloaderSize = size || 22;
   return (
     <>
       <div

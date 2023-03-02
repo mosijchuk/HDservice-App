@@ -1,14 +1,14 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import {Dashboard} from "./Dashboard";
+import {Functions} from "./Functions";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 import {selectDefaultScheduleState} from "../../redux/scheduleReducer";
 import HeaderContainer from "../Header/HeaderContainer";
 
-const DashboardContainer = ({selectedDepartment, updateDepartment}) => {
-  const headerName = "Все функции"
+const FunctionsContainer = ({selectedDepartment, updateDepartment}) => {
+  const headerName = "All functions"
   const description = {
-    name: 'Количество функций',
+    name: 'Functions count',
     value: 1
   }
 
@@ -20,7 +20,7 @@ const DashboardContainer = ({selectedDepartment, updateDepartment}) => {
   return (
       <>
         <HeaderContainer headerName={headerName} description={description} back={false}/>
-        <Dashboard />
+        <Functions />
       </>
 
   );
@@ -32,7 +32,7 @@ const mapStateToProps = state => ({
 
 export default withAuthRedirect(
     connect(mapStateToProps, { })(
-        DashboardContainer
+        FunctionsContainer
     )
 );
 

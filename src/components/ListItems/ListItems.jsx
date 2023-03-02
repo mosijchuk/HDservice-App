@@ -1,5 +1,8 @@
 import React from "react";
 import s from "./listitems.module.scss"
+import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
+import TimelineIcon from '@material-ui/icons/Timeline';
+import LocalActivityIcon from '@material-ui/icons/LocalActivity';
 
 const ListItem = ({item, handler}) => {
 
@@ -13,27 +16,17 @@ const ListItem = ({item, handler}) => {
     return (
         <a onClick={selectThisUser} className={`${s.Item} ${item.active ? s.active : ""}`}>
             <span className={s.name}>{item.name}</span>
-            <span className={s.note}>-</span>
-            <span className={s.params}>{item.value ? item.value : "-"}</span>
+            <span className={s.note}>
+                {item.note === "closest" && (<LocalActivityIcon className={s.greenColor} />)}
+                {item.note === "full" && (<PlaylistAddCheckIcon className={s.mainColor}/>)}
+                {item.note === "linear" && (<TimelineIcon className={s.mainTransparentColor} />)}
+            </span>
+            <span className={`${s.params} ${item.value > 30 ? s.warning : ""}`}>{item.value ? item.valueText : "-"}</span>
         </a>
     )
 }
 
 const ListItems = ({items, handler}) => {
-
-    // items = [
-    //     {
-    //         name: "Сотрудник",
-    //         value: "25 km",
-    //         active: true
-    //     },
-    //     {
-    //         name: "Сотрудник 2",
-    //         value: null,
-    //         active: false
-    //     }
-    // ]
-
     if(!items) {
         return <></>
     }
@@ -42,7 +35,7 @@ const ListItems = ({items, handler}) => {
             {
                 items.map(item=>{
                     return (
-                        <ListItem item={item} handler={handler} />
+                        <ListItem key={item.name+item.value} item={item} handler={handler} />
                     )
                 })
             }

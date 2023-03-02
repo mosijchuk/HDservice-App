@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import s from "./moscowimage.module.scss";
+import s from "./cityimage.module.scss";
 import map from "./../../assets/img/map.svg"
 import SearchIcon from '@material-ui/icons/Search';
 import PeopleIcon from '@material-ui/icons/People';
@@ -30,9 +30,9 @@ const RandomPoint = () => {
 
 const CityImage = props => {
     return (
-        <div className={s.moscowImageWrap}>
+        <div className={s.cityImageWrap}>
             <div className={s.mapWrap}>
-                <img src={map} alt="Moscow"/>
+                <img src={map} alt="City"/>
 
                 {props.isFetchingMeetings && (
                     <div className={s.scheduleWrap}>

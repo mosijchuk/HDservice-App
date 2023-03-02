@@ -1,11 +1,11 @@
 import moment from "moment/min/moment-with-locales";
-import { ObivkaAPI } from "../API/api";
+import { HDserviceAPI } from "../API/api";
 
 const SET_PERIOD = "@congestion/SET_PERIOD";
 const SET_MEETINGS = "@congestion/SET_MEETINGS";
 const TOGGLE_FETCHING_CONGESTION = "@congestion/TOGGLE_FETCHING_CONGESTION";
 
-let initialState = {
+const initialState = {
   selectedPeriod: [],
   meetingsUsers: [],
   isFetchingCongestion: false
@@ -27,17 +27,18 @@ const congestionReducer = (state = initialState, action) => {
 };
 
 //actions
-let toggleIsFetchingCongestion = isFetchingCongestion => ({
+const toggleIsFetchingCongestion = isFetchingCongestion => ({
   type: TOGGLE_FETCHING_CONGESTION,
   payload: { isFetchingCongestion }
 });
 
-let setPeriodData = selectedPeriod => ({
+const setPeriodData = selectedPeriod => ({
   type: SET_PERIOD,
   payload: { selectedPeriod }
 });
 
-let setMeetings = meetingsUsers => ({
+
+const setMeetings = meetingsUsers => ({
   type: SET_MEETINGS,
   payload: { meetingsUsers }
 });
@@ -83,9 +84,13 @@ const getPeriodDays = period => {
 };
 
 const filterMeetings = (meetings, selectedPeriod) => {
-  return meetings.filter(meeting =>
-    selectedPeriod.some(date => date === meeting.date)
-  );
+  if(meetings) {
+    return meetings.filter(meeting =>
+        selectedPeriod.some(date => date === meeting.date)
+    );
+  }else{
+    return [];
+  }
 };
 
 //thunks
@@ -96,12 +101,13 @@ export const setPeriod = period => dispatch => {
 
 export const updateChart = () => (dispatch, getState) => {
   dispatch(toggleIsFetchingCongestion(true));
-  const users = getState().dashboard.users;
-  const selectedPeriod = getState().congestion.selectedPeriod;
+  const department = getState().dashboard.selectedDepartment
+  const users = getState().dashboard.users.filter(user=>user.department==department)
+  const selectedPeriod = getState().congestion.selectedPeriod
   let iterations = 0;
   let meetings = [];
   users.map(user => {
-    ObivkaAPI.getMeetings(user.id).then(response => {
+    HDserviceAPI.getMeetings(user.id, department).then(response => {
       let meetingsUser = {
         userId: response.data.userId,
         userName: response.data.userName,

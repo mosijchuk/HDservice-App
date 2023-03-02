@@ -1,375 +1,831 @@
 import moment from "moment/min/moment-with-locales";
-import { ObivkaAPI, YandexAPI } from "../API/api";
+import {HDserviceAPI} from "../API/api";
 
 const SET_ADDRESS = "@schedule/SET_ADDRESS";
 const SET_SEARCH_RESULTS = "@schedule/SET_SEARCH_RESULTS";
 const CLEAR_ADDRESS = "@schedule/CLEAR_ADDRESS";
+const SET_INITIAL_STATE = "@schedule/SET_INITIAL_STATE";
 const SELECT_USER = "@schedule/SELECT_USER";
+const SELECT_DATE = "@schedule/SELECT_DATE";
 const SET_USER_MEETINGS = "@schedule/SET_USER_MEETINGS";
 const SET_CALENDAR_DATA = "@schedule/SET_CALENDAR_DATA";
+const SET_RESERVED_DATES = "@schedule/SET_RESERVED_DATES";
 const SET_FREE_SCHEDULE = "@schedule/SET_FREE_SCHEDULE";
+const SET_PREV_ACTION = "@schedule/SET_PREV_ACTION";
 const TOGGLE_FETCHING_ADDRESS = "@schedule/TOGGLE_FETCHING_ADDRESS";
 const TOGGLE_FETCHING_MEETINGS = "@schedule/TOGGLE_FETCHING_MEETINGS";
 const TOGGLE_FETCHING_SCHEDULE = "@schedule/TOGGLE_FETCHING_SCHEDULE";
+const TOGGLE_FETCHING_ROUTES = "@schedule/TOGGLE_FETCHING_ROUTES";
+const TOGGLE_INIT_ROUTES = "@schedule/TOGGLE_INIT_ROUTES";
+const TOGGLE_FETCHING_RESERVING = "@schedule/TOGGLE_FETCHING_RESERVING";
+const TOGGLE_ONLY_BASE_ROUTE = "@schedule/TOGGLE_ONLY_BASE_ROUTE";
+const SET_SHEDULE_PERIOD_DATA = "@schedule/SET_SHEDULE_PERIOD_DATA";
+
 
 let initialState = {
-  searchResults: [],
-  selectedUser: {},
-  selectedAddress: {},
-  userMeetings: [],
-  calendar: {
-    period: null,
-    meetings: []
-  },
-  freeSchedule: [],
-  isFetchingAddress: false,
-  isFetchingMeetings: false,
-  isFetchingSchedule: false
+   searchResults: [],
+   selectedUser: {},
+   selectedDate: {},
+   selectedAddress: {},
+   userMeetings: [],
+   freeSchedule: {
+      period: 7,
+      usersSchedule: []
+   },
+   reservedDates: [],
+   prevAction: false,
+   isFetchingAddress: false,
+   isFetchingMeetings: false,
+   isFetchingSchedule: false,
+   isFetchingRoutes: false,
+   isFetchingReserving: false,
+   isFetchingCalendar: false,
+   isOnlyBaseRoute: false,
+   isRoutesInit: false
 };
 
 const scheduleReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case SET_ADDRESS:
-    case SELECT_USER:
-    case SET_SEARCH_RESULTS:
-    case CLEAR_ADDRESS:
-    case SET_CALENDAR_DATA:
-    case SET_USER_MEETINGS:
-    case SET_FREE_SCHEDULE:
-    case TOGGLE_FETCHING_ADDRESS:
-    case TOGGLE_FETCHING_MEETINGS:
-    case TOGGLE_FETCHING_SCHEDULE:
-      return {
-        ...state,
-        ...action.payload
-      };
-    default: {
-      return state;
-    }
-  }
+   switch (action.type) {
+      case SET_ADDRESS:
+      case SELECT_USER:
+      case SELECT_DATE:
+      case SET_SEARCH_RESULTS:
+      case CLEAR_ADDRESS:
+      case SET_CALENDAR_DATA:
+      case SET_USER_MEETINGS:
+      case SET_FREE_SCHEDULE:
+      case SET_RESERVED_DATES:
+      case SET_PREV_ACTION:
+      case TOGGLE_FETCHING_ADDRESS:
+      case TOGGLE_FETCHING_MEETINGS:
+      case TOGGLE_FETCHING_SCHEDULE:
+      case TOGGLE_FETCHING_RESERVING:
+      case TOGGLE_FETCHING_ROUTES:
+      case TOGGLE_ONLY_BASE_ROUTE:
+      case SET_SHEDULE_PERIOD_DATA:
+      case TOGGLE_INIT_ROUTES:
+         return {
+            ...state,
+            ...action.payload
+         };
+
+      case SET_INITIAL_STATE:
+         return {
+            ...action.payload
+         };
+      default: {
+         return state;
+      }
+   }
 };
 
 //actions
-let setAddress = selectedAddress => ({
-  type: SET_ADDRESS,
-  payload: { selectedAddress }
+const setAddress = selectedAddress => ({
+   type: SET_ADDRESS,
+   payload: {selectedAddress}
 });
 
-let clearAddressData = () => ({
-  type: CLEAR_ADDRESS,
-  payload: { selectedAddress: {} }
+const setInitialState = initialState => ({
+   type: SET_INITIAL_STATE,
+   payload: {...initialState}
 });
 
-let setUser = selectedUser => ({
-  type: SELECT_USER,
-  payload: { selectedUser }
+const setUser = selectedUser => ({
+   type: SELECT_USER,
+   payload: {selectedUser}
 });
 
-let setSearchResults = searchResults => ({
-  type: SET_SEARCH_RESULTS,
-  payload: { searchResults }
+const setDate = selectedDate => ({
+   type: SELECT_DATE,
+   payload: {selectedDate}
 });
 
-let setCalendarData = calendar => ({
-  type: SET_CALENDAR_DATA,
-  payload: { calendar }
+const setReservedDates = reservedDates => ({
+   type: SET_RESERVED_DATES,
+   payload: {reservedDates}
 });
 
-let setUserMeetings = userMeetings => ({
-  type: SET_USER_MEETINGS,
-  payload: { userMeetings }
+const setSearchResults = searchResults => ({
+   type: SET_SEARCH_RESULTS,
+   payload: {searchResults}
 });
 
-let setFreeSchedule = freeSchedule => ({
-  type: SET_FREE_SCHEDULE,
-  payload: { freeSchedule }
+const setCalendarPeriodData = freeSchedule => ({
+   type: SET_SHEDULE_PERIOD_DATA,
+   payload: {freeSchedule}
 });
 
-let toggleIsFetchingAddress = isFetchingAddress => ({
-  type: TOGGLE_FETCHING_ADDRESS,
-  payload: { isFetchingAddress }
+const toggleIsFetchingSchedule = isFetchingSchedule => ({
+   type: TOGGLE_FETCHING_SCHEDULE,
+   payload: {isFetchingSchedule}
 });
 
-let toggleIsFetchingMeetings = isFetchingMeetings => ({
-  type: TOGGLE_FETCHING_MEETINGS,
-  payload: { isFetchingMeetings }
+const toggleIsFetchingRoutes = isFetchingRoutes => ({
+   type: TOGGLE_FETCHING_ROUTES,
+   payload: {isFetchingRoutes}
 });
 
-let toggleIsFetchingSchedule = isFetchingSchedule => ({
-  type: TOGGLE_FETCHING_SCHEDULE,
-  payload: { isFetchingSchedule }
+const setUserMeetings = userMeetings => ({
+   type: SET_USER_MEETINGS,
+   payload: {userMeetings}
+});
+
+const toggleIsFetchingAddress = isFetchingAddress => ({
+   type: TOGGLE_FETCHING_ADDRESS,
+   payload: {isFetchingAddress}
+});
+
+const toggleIsFetchingMeetings = isFetchingMeetings => ({
+   type: TOGGLE_FETCHING_MEETINGS,
+   payload: {isFetchingMeetings}
+});
+
+const toggleIsFetchingReserving = isFetchingReserving => ({
+   type: TOGGLE_FETCHING_RESERVING,
+   payload: {isFetchingReserving}
+});
+
+const toggleIsOnlyBaseRoute = isOnlyBaseRoute => ({
+   type: TOGGLE_ONLY_BASE_ROUTE,
+   payload: {isOnlyBaseRoute}
+});
+
+const toggleIsRoutesInit = isRoutesInit => ({
+   type: TOGGLE_INIT_ROUTES,
+   payload: {isRoutesInit}
 });
 
 //functions
-const filterMeetings = (meetings, selectedPeriod) => {
-  return meetings.filter(meeting =>
-    selectedPeriod.some(date => date === meeting.date)
-  );
-};
+const getClosestTrip = (roadmap) => {
+   if (roadmap.length) {
+      const onlyParams = roadmap.filter(roadItem => roadItem.type === 'params')
 
-const getCalendarByPeriod = (period, holidays) => {
-  const calendar = [];
-  for (let i = 1; i < period + 1; i++) {
-    const stringDate = moment()
-      .add(i, "day")
-      .format("L");
-    const stringDay = moment()
-      .add(i, "day")
-      .format("dddd");
-    const day = {
-      date: stringDate,
-      day: stringDay,
-      holiday: holidays.some(holiday => holiday === stringDay),
-      meetings: [
-        {
-          time: "с 11 до 12",
-          booked: false,
-          address: null
-        },
-        {
-          time: "с 14 до 15",
-          booked: false,
-          address: null
-        },
-        {
-          time: "с 17 до 18",
-          booked: false,
-          address: null
-        },
-        {
-          time: "с 18 до 19",
-          booked: false,
-          address: null
-        }
-      ]
-    };
-    calendar.push(day);
-  }
-  return calendar;
-};
+      const closest = onlyParams.reduce((acc, loc) => {
+            if (acc.totalDistance < loc.totalDistance) {
+               return acc
+            } else {
+               return loc
+            }
+         }
+      )
+      return closest
+   }
+}
+
+const getClosestDay = (days) => {
+   if (days.length) {
+
+      const filteredDays = days.filter(day => day.closestDistance)
+      if (filteredDays.length) {
+         const closest = filteredDays.reduce((acc, loc) => {
+               if (acc.closestDistance < loc.closestDistance) {
+                  return acc
+               } else {
+                  return loc
+               }
+            }
+         )
+         return closest
+      }
+   }
+}
+
+
+const getClosestUser = (schedule) => {
+   if (schedule.length) {
+      const filteredUsers = schedule.filter(user => user.closestDistance)
+      const closest = filteredUsers.reduce((acc, loc) => {
+            if (acc.closestDistance < loc.closestDistance) {
+               return acc
+            } else {
+               return loc
+            }
+         }
+      )
+      return closest
+   }
+}
+
 
 //thunks
-export const getUserMeetings = () => (dispatch, getState) => {
-  let userId = getState().schedule.selectedUser.id;
-  const calendarPeriod = getState().schedule.calendar.period;
-  dispatch(toggleIsFetchingMeetings(true));
-  ObivkaAPI.getMeetings(userId).then(response => {
-    dispatch(setUserMeetings(response.data.meetings));
-    dispatch(getSchedule(calendarPeriod || 7));
-    dispatch(toggleIsFetchingMeetings(false));
-  });
+export const setIsOnlyBase = (isOnlyBase) => (dispatch) => {
+   dispatch(toggleIsOnlyBaseRoute(isOnlyBase));
 };
 
-export const selectAddress = addressData => (dispatch, getState) => {
-  const baseAddress = getState().schedule.selectedUser.baseAddress;
-  const addressString = addressData.address + ", " + addressData.description;
-  dispatch(toggleIsFetchingAddress(true));
-  dispatch(toggleIsFetchingSchedule(true));
-  ObivkaAPI.getAddressParams(baseAddress, addressString).then(response => {
-    if (response.data.resultCode === 1 || response.data.resultCode === 2) {
-      let newAddressData = {
-        ...addressData,
-        addressString: addressString,
-        errorMessage: response.data.errorMessage,
-        allowedRadius: response.data.allowedRadius,
-        allowedRadiusVal: response.data.allowedRadiusVal,
-        distanceText: response.data.distanceText,
-        distanceValue: response.data.distanceValue,
-        durationText: response.data.durationText,
-        durationValue: response.data.durationValue
-      };
-      dispatch(setAddress(newAddressData));
-      dispatch(toggleIsFetchingAddress(false));
-      dispatch(getFreeSchedule());
-    } else if (response.data.resultCode === 0) {
-      let errorData = {
-        errorMessage: response.data.errorMessage
-      };
-      dispatch(setAddress(errorData));
-      dispatch(toggleIsFetchingAddress(false));
-      dispatch(toggleIsFetchingSchedule(false));
-    }
-  });
-  dispatch(setSearchResults([]));
+export const selectDate = date => (dispatch, getState) => {
+   const selectedDateData = {
+      date
+   }
+   dispatch(setDate(selectedDateData))
+}
+
+
+export const selectUser = userId => (dispatch, getState) => {
+   const users = getState().dashboard.users
+   const selectedUserId = userId || users[0].id
+   const selectedUserData = users.find(user => user.id === selectedUserId)
+   const selectedScheduleUser = getState().schedule.freeSchedule.usersSchedule.find(scheduleUser => scheduleUser.userId === selectedUserId) || {}
+
+   //set new user
+   dispatch(setUser(selectedUserData));
+
+   //set new user closest date
+   if (selectedScheduleUser && selectedScheduleUser.userPeriod) {
+      const closestUserDate = selectedScheduleUser.userPeriod.find(date => date.closest)
+      closestUserDate && dispatch(selectDate(closestUserDate.date));
+   }
+
+};
+
+export const injectReservedDate = (reserve) => (dispatch, getState) => {
+   const usersSchedule = getState().schedule.freeSchedule.usersSchedule
+
+   if (usersSchedule && reserve) {
+      const schWithInject = usersSchedule.map(user => {
+         if (reserve.employee == user.userId) {
+            return {
+               ...user,
+               userPeriod: user.userPeriod.map(date => {
+                  if (reserve.date === date.date) {
+                     return {
+                        ...date,
+                        roadmap: date.roadmap.map(roadItem => {
+                           if (roadItem.type === 'time') {
+                              return {
+                                 ...roadItem,
+                                 intervals: roadItem.intervals.map(time => {
+                                    if (reserve.time === time.time) {
+                                       return {
+                                          ...time,
+                                          isReserved: true
+                                       }
+                                    }
+                                    return time
+                                 })
+                              }
+                           }
+                           return roadItem
+                        })
+                     }
+                  }
+                  return date
+               })
+            }
+         }
+         return user
+      })
+
+      //dispatch to state injected reserve time
+      const injectedReserveSchedule = {
+         period: getState().schedule.freeSchedule.period,
+         usersSchedule: schWithInject
+      }
+      dispatch(setCalendarPeriodData(injectedReserveSchedule))
+   }
+}
+
+export const getReservedDates = () => (dispatch) => {
+   HDserviceAPI.getReserves().then(res => {
+      dispatch(setReservedDates(res.data))
+   })
+}
+
+export const createTimeReserve = (time) => (dispatch, getState) => {
+   dispatch(toggleIsFetchingReserving(true));
+   const employee = getState().schedule.selectedUser.id;
+   const date = getState().schedule.selectedDate.date;
+
+
+   return HDserviceAPI.createReserve(employee, date, time).then(res => {
+      dispatch(toggleIsFetchingReserving(false));
+      dispatch(getReservedDates());
+      if (res.data.resultCode == 1) {
+         const injectData = {
+            employee,
+            date,
+            time
+         }
+         dispatch(injectReservedDate(injectData))
+
+      }
+      return res.data
+   })
 };
 
 export const recalculateAddress = () => (dispatch, getState) => {
-  const addressData = getState().schedule.selectedAddress;
-  addressData.address && dispatch(selectAddress(addressData));
+   const addressData = getState().schedule.selectedAddress;
+   // dispatch(getUserMeetings());
+   addressData.address && dispatch(selectAddress(addressData));
+};
+
+
+//clear state
+export const selectDefaultScheduleState = () => (dispatch) => {
+   dispatch(setInitialState(initialState))
+}
+
+export const findAddress = address => dispatch => {
+   if (address.length > 3) {
+      HDserviceAPI.findAddress(address).then(data => {
+         if (data) {
+            let searchArray = data.results.map(result => ({
+               address: result.address,
+               description: result.description,
+               position: result.position
+            }));
+            dispatch(setSearchResults(searchArray));
+         }
+      });
+   } else {
+      dispatch(setSearchResults([]));
+   }
+};
+
+export const selectAddress = addressData => (dispatch, getState) => {
+   const addressString = addressData.address + ", " + addressData.description;
+
+   const allUsers = getState().dashboard.users.map(user => user)
+   const department = getState().dashboard.selectedDepartment
+   const departmentUsers = allUsers.filter(user => user.department == department)
+
+   dispatch(toggleIsFetchingAddress(true));
+
+   const getUserBaseAddrParams = (baseAddress) => {
+      return new Promise(resolve => {
+         return HDserviceAPI.getAddressParams(baseAddress, addressString).then(response => {
+            if (response.data.resultCode === 1 || response.data.resultCode === 2) {
+               resolve(response)
+            } else if (response.data.resultCode === 0) {
+               let errorData = {
+                  errorMessage: response.data.errorMessage
+               };
+               resolve(errorData)
+            }
+         });
+      })
+   }
+
+   const usersBaseParams = departmentUsers.map(eachUser => {
+      return new Promise(resolve => {
+         getUserBaseAddrParams(eachUser.baseAddress).then(res => {
+            resolve({
+               userId: eachUser.id,
+               params: res.data
+            })
+         })
+      })
+   })
+   Promise.all(usersBaseParams).then((resAddrParams) => {
+      const selectedAddressData = {
+         ...addressData,
+         addressString: addressString,
+         errorMessage: resAddrParams[0].params.errorMessage,
+         allowedRadius: resAddrParams[0].params.allowedRadius,
+         allowedRadiusVal: resAddrParams[0].params.allowedRadiusVal,
+         usersParams: resAddrParams
+      }
+      dispatch(setAddress(selectedAddressData));
+      dispatch(toggleIsFetchingAddress(false));
+      // Start main core
+      dispatch(loadScheduleCore());
+   });
+
+   dispatch(setSearchResults([]));
 };
 
 export const clearAddress = () => dispatch => {
-  dispatch(clearAddressData());
-  dispatch(setFreeSchedule([]));
-  dispatch(setSearchResults([]));
-  dispatch(toggleIsFetchingAddress(false));
-  dispatch(toggleIsFetchingSchedule(false));
+   dispatch(selectDefaultScheduleState());
 };
 
-export const selectUser = userId => (dispatch, getState) => {
-  const users = getState().dashboard.users;
-  const selectedUserData = users.filter(user => user.id === userId);
-  dispatch(setUser(selectedUserData[0]));
-  dispatch(recalculateAddress());
-  dispatch(getUserMeetings());
-};
+//START CORE
+export const loadScheduleCore = () => (dispatch) => {
+   dispatch(getUserMeetings())
+   dispatch(getReservedDates());
+}
 
-export const findAddress = address => dispatch => {
-  if (address.length > 3) {
-    YandexAPI.findAddress(address).then(data => {
-      if (data.response) {
-        let searchData = data.response.GeoObjectCollection.featureMember;
-        let searchArray = searchData.map(result => ({
-          address: result.GeoObject.name,
-          description: result.GeoObject.description,
-          position: result.GeoObject.Point.pos
-        }));
-        dispatch(setSearchResults(searchArray));
-      }
-    });
-  } else {
-    dispatch(setSearchResults([]));
-  }
-};
+//1
+export const getUserMeetings = () => (dispatch, getState) => {
+   const allUsers = getState().dashboard.users.map(user => user)
+   const department = getState().dashboard.selectedDepartment
+   const departmentUsers = allUsers.filter(user => user.department == department)
+   const calendarPeriod = getState().schedule.freeSchedule.period;
+   dispatch(toggleIsFetchingMeetings(true));
 
-export const getFreeSchedule = () => (dispatch, getState) => {
-  dispatch(toggleIsFetchingSchedule(true));
-  const calendarMeetings = getState().schedule.calendar.meetings;
-  const selectedAddress = getState().schedule.selectedAddress;
-  const withoutHolidays = calendarMeetings.filter(
-    calendarDay => !calendarDay.holiday
-  );
 
-  let withoutParams = [];
-  withoutHolidays.forEach(day => {
-    day.meetings.forEach(time => {
-      !time.booked &&
-        withoutParams.push({
-          date: day.date,
-          day: day.day,
-          booked: time.booked,
-          ...time
-        });
-    });
-  });
-
-  let calculatedSchedule = [];
-
-  const getAddrParams = time => {
-    if (time.posibleOrigin) {
-      ObivkaAPI.getAddressParams(
-        time.posibleOrigin,
-        selectedAddress.addressString
-      ).then(res => {
-        calculatedSchedule.push({
-          ...time,
-          params: {
-            distanceText: res.data.distanceText,
-            distanceValue: res.data.distanceValue,
-            durationText: res.data.durationText,
-            durationValue: res.data.durationValue
-          }
-        });
-        dispatch(setFreeSchedule(calculatedSchedule));
-        dispatch(sortFreeSchedule());
-      });
-    } else {
-      calculatedSchedule.push({
-        ...time,
-        params: {
-          distanceText: selectedAddress.distanceText,
-          distanceValue: selectedAddress.distanceValue,
-          durationText: selectedAddress.durationText,
-          durationValue: selectedAddress.durationValue
-        }
-      });
-      dispatch(setFreeSchedule(calculatedSchedule));
-      dispatch(sortFreeSchedule());
-    }
-  };
-  withoutParams.map(time => {
-    getAddrParams(time);
-  });
-  // Promise.all([addressRoutesCalc]).then(() => {
-  //   dispatch(setFreeSchedule(calculatedSchedule));
-  //   dispatch(sortFreeSchedule());
-  // });
-};
-
-export const sortFreeSchedule = () => (dispatch, getState) => {
-  const calendarMeetings = getState().schedule.calendar.meetings;
-  const allowedRadius = getState().schedule.selectedAddress.allowedRadiusVal;
-  const freeSchedule = getState().schedule.freeSchedule;
-
-  const filteredSchedule = freeSchedule.filter(item => {
-    return item.params.distanceValue < allowedRadius * 3;
-  });
-  // .sort(function(a, b) {
-  //   if (new Date(a.date) < new Date(b.date)) return -1;
-  //   if (new Date(a.date) > new Date(b.date)) return 1;
-  //   // при равных date сортируем по time
-  //   if (+/\d+/.exec(a.time) < +/\d+/.exec(b.time)) return -1;
-  //   if (+/\d+/.exec(a.time) > +/\d+/.exec(b.time)) return 1;
-  //   return 0;
-  // });
-
-  const sortedSchedule = [];
-  calendarMeetings.forEach(day => {
-    day.meetings.forEach(time => {
-      const finded = filteredSchedule.find(filtered => {
-        return filtered.date === day.date && filtered.time === time.time;
-      });
-      return finded && sortedSchedule.push(finded);
-    });
-  });
-
-  dispatch(setFreeSchedule(sortedSchedule));
-  dispatch(toggleIsFetchingSchedule(false));
-};
-
-export const getSchedule = period => (dispatch, getState) => {
-  const userMeetings = getState().schedule.userMeetings;
-  const userHolidays = getState().schedule.selectedUser.holidays;
-  const fullPeriodDays = getCalendarByPeriod(period, userHolidays);
-
-  let prevAddress = null;
-  const getPrevOrigin = meeting => {
-    if (meeting.address) {
-      prevAddress = meeting.address;
-      return null;
-    } else if (!meeting.address && prevAddress) {
-      let origin = prevAddress;
-      prevAddress = null;
-      return origin;
-    } else {
-      return null;
-    }
-  };
-
-  const withBookedDays = fullPeriodDays.map(day => {
-    return {
-      ...day,
-      meetings: day.meetings.map(time => {
-        const meeting =
-          userMeetings.find(meeting => {
-            return meeting.date === day.date && meeting.time === time.time;
-          }) || false;
-        return {
-          ...time,
-          booked: meeting && true,
-          address: meeting.address || null,
-          posibleOrigin: getPrevOrigin(meeting)
-        };
+   const meetingsResponses = departmentUsers.map(user => {
+      return new Promise(resolve => {
+         return HDserviceAPI.getMeetings(user.id, department).then(response => {
+            return resolve({userId: user.id, meetings: response.data.meetings || []})
+         });
       })
-    };
-  });
+   })
 
-  const calendarData = {
-    period,
-    meetings: withBookedDays
-  };
-  dispatch(setCalendarData(calendarData));
-  dispatch(recalculateAddress());
+   Promise.all(meetingsResponses).then((allResponses) => {
+      dispatch(setUserMeetings(allResponses));
+      // dispatch(getSchedule(calendarPeriod || 7));
+      dispatch(toggleIsFetchingMeetings(false));
+      dispatch(getAllUsersSchedule(calendarPeriod || 7));
+   });
 };
+
+//2
+const getAllUsersSchedule = (period = 7) => (dispatch, getState) => {
+   const allUsers = getState().dashboard.users
+   const usersMeetings = getState().schedule.userMeetings ? getState().schedule.userMeetings : []
+   const periodArr = []
+   const allUsersIds = allUsers.map(user => user.id)
+   const isFetchingSchedule = getState().schedule.isFetchingSchedule
+
+   //for period
+   for (let i = 0; i < period; i++) {
+      const isoDate = moment()
+         .add(i, "day")
+         .format("YYYY-MM-DD");
+      const stringDay = moment()
+         .add(i, "day")
+         .format("dddd");
+
+      periodArr.push(isoDate)
+   }
+
+   //get schedule from server
+   if (!isFetchingSchedule) {
+      dispatch(toggleIsFetchingSchedule(true))
+      HDserviceAPI.getDateSchedule(allUsersIds, periodArr).then(res => {
+         dispatch(toggleIsFetchingSchedule(false))
+         if (res.resultCode === 1) {
+            //compose recieved data
+            const formattedSchedule = res.periodSchedule.map(user => {
+               return {
+                  ...user,
+                  userPeriod: user.userPeriod.map(date => {
+                     const formattedDate = moment(date.date).format('DD.MM.YYYY')
+                     return {
+                        date: formattedDate,
+                        schedule: date.schedule.map(time => {
+                           const currentUserMeetings = usersMeetings ? usersMeetings.find(meetingsUser => meetingsUser.userId === user.userId) : []
+                           const currentDateMeetings = currentUserMeetings ? currentUserMeetings.meetings.find(metting => metting.date === formattedDate && metting.time === time.time) : []
+
+                           return {
+                              ...time,
+                              address: currentDateMeetings ? currentDateMeetings.address : null
+                           }
+                        })
+                     }
+
+                  })
+               }
+            })
+
+
+            //proccessing
+            const onlyFreeAndAddressSchedule = formattedSchedule.map(user => {
+               const userBaseAddress = allUsers.find(staff => staff.id === user.userId).baseAddress
+               const selectedAddress = getState().schedule.selectedAddress.addressString
+
+               return {
+                  ...user,
+                  userPeriod: user.userPeriod.map(date => {
+                     //filter only free time or isset address
+                     const onlyFreeTime = date.schedule.filter(time => time.is_free)
+                     const filteredTime = date.schedule.filter(time => {
+                        const hours = +time.time.split(':')[0]
+                        const minutes = +time.time.split(':')[1]
+                        return hours >= 9 && hours <= 20 || hours > 18 && time.address
+                     })
+                     const filteredFreeTime = filteredTime.filter(time => time.is_free || !time.is_free && time.address)
+
+                     //create roadmap
+                     const filteredForRoadmap = filteredFreeTime.filter(time => !time.is_free && time.address)
+                     const baseAddrObj = {
+                        type: 'base',
+                        address: userBaseAddress
+                     }
+                     filteredForRoadmap.unshift(baseAddrObj)
+                     filteredForRoadmap.push(baseAddrObj)
+
+                     const roadmapWithParamsPoints = []
+
+                     for (let i = 0; i < filteredForRoadmap.length; i++) {
+                        const thisPoint = filteredForRoadmap[i];
+                        const thisPointTime = thisPoint && thisPoint.time ? +thisPoint.time.split(':')[0] : 8
+                        const nextPoint = filteredForRoadmap[i + 1]
+                        const nextPointTime = nextPoint && nextPoint.time ? +nextPoint.time.split(':')[0] : 20
+
+                        //filter +/- one hour for road
+                        const timeOneHourForRoad = []
+
+                        for (let t = 0; t < filteredFreeTime.length; t++) {
+                           if (filteredFreeTime[t].address) {
+                              const prevRoadHour_1 = filteredFreeTime[t - 1] ? +filteredFreeTime[t - 1].time.split(':')[0] : 0
+                              const prevRoadHour_2 = filteredFreeTime[t - 2] ? +filteredFreeTime[t - 2].time.split(':')[0] : 0
+                              const meetRoadHour = +filteredFreeTime[t].time.split(':')[0]
+
+                              t - 1 >= 0 && prevRoadHour_1 + 1 === meetRoadHour && timeOneHourForRoad.push(filteredFreeTime[t - 1])
+                              t - 2 >= 0 && prevRoadHour_2 + 1 === meetRoadHour && timeOneHourForRoad.push(filteredFreeTime[t - 2])
+                              t + 1 <= filteredFreeTime.length - 1 && timeOneHourForRoad.push(filteredFreeTime[t + 1])
+                              //t+2 <= filteredFreeTime.length-1 && timeOneHourForRoad.push(filteredFreeTime[t+2])
+                           }
+                        }
+
+                        const intervalTimeVars = filteredFreeTime.filter(timeVar => {
+                           const numTime = +timeVar.time.split(':')[0]
+                           return !timeVar.address && timeVar.time && timeVar.time !== '19:30' && numTime > thisPointTime && numTime < nextPointTime
+                        })
+
+                        const intervalTimeWithRoad = intervalTimeVars.map(time => {
+                           const roadTime = timeOneHourForRoad.find(road => road.time === time.time)
+                           const reserves = getState().schedule.reservedDates
+                           const isReserved = reserves.find(reserve => reserve.employee == user.userId && reserve.date === date.date && reserve.time === time.time)
+
+                           return {
+                              ...time,
+                              roadTime: !!roadTime,
+                              isReserved: !!isReserved
+                           }
+                        })
+
+                        const intervalTime = {
+                           type: 'time',
+                           intervals: intervalTimeWithRoad
+                        }
+                        const varParams = {
+                           type: 'params',
+                           totalDistance: null,
+                           origin_1: thisPoint.address,
+                           destination_1: selectedAddress,
+                           origin_2: selectedAddress,
+                           destination_2: nextPoint ? nextPoint.address : null,
+                           params_1: null,
+                           params_2: null
+                        }
+                        if (thisPoint.type === 'base') {
+                           roadmapWithParamsPoints.push(thisPoint)
+                        }
+                        if (!thisPoint.type && !thisPoint.is_free && thisPoint.address) {
+                           roadmapWithParamsPoints.push({
+                              type: 'meeting',
+                              ...thisPoint
+                           })
+                        }
+
+                        //filter params before 09:00
+                        if (filteredForRoadmap[i + 1] && filteredForRoadmap[i + 1].time !== '09:00') {
+                           if (i !== filteredForRoadmap.length - 1) {
+                              intervalTimeVars.length && roadmapWithParamsPoints.push(intervalTime)
+                              varParams.destination_2 && roadmapWithParamsPoints.push(varParams)
+                           }
+                        }
+
+                     }
+                     // Day mettings limit
+                     const isFullLoad = filteredFreeTime.filter(time => time.address).length >= 5
+
+                     return {
+                        ...date,
+                        fullLoad: isFullLoad,
+                        schedule: filteredFreeTime,
+                        roadmap: roadmapWithParamsPoints
+                     }
+                  })
+               }
+            })
+
+            //clear fullLoad roadmaps of time and params
+            const clearRoadmaps = onlyFreeAndAddressSchedule.map(user => {
+               return {
+                  ...user,
+                  userPeriod: user.userPeriod.map(date => {
+                     if (date.fullLoad) {
+                        return {
+                           ...date,
+                           roadmap: date.roadmap.filter(item => item.type !== 'time' && item.type !== 'params')
+                        }
+                     }
+
+                     const isNineStart = date.roadmap.find(item => item.type === 'meeting' && +item.time.split(':')[0] === 9)
+
+                     // filter if first meeting 09:00
+                     if (isNineStart) {
+                        return {
+                           ...date,
+                           roadmap: date.roadmap.map(roadItem => {
+                              if (roadItem.type === 'time') {
+                                 return {
+                                    ...roadItem,
+                                    intervals: roadItem.intervals.filter(time => time.time !== '18:30' && time.time !== '19:00')
+                                 }
+                              }
+                              return {
+                                 ...roadItem
+                              }
+                           })
+                        }
+                     }
+                     return {
+                        ...date
+                     }
+                  })
+               }
+            })
+            //push to state
+            const scheduleWithoutRoutes = {
+               period: period,
+               usersSchedule: clearRoadmaps
+            }
+            dispatch(setCalendarPeriodData(scheduleWithoutRoutes))
+
+            // Calculate routes
+            dispatch(calcRoutes())
+
+         }
+      })
+   }
+}
+
+//3
+const calcRoutes = () => (dispatch, getState) => {
+   dispatch(toggleIsFetchingRoutes(true))
+   const freeSchedule = getState().schedule.freeSchedule
+
+   const getAddrParams = (o, d) => {
+      if (o && d) {
+         return new Promise(resolve => {
+            return HDserviceAPI.getAddressParams(o, d).then(res => {
+
+               if (res.data.resultCode) {
+                  return resolve({
+                     distanceText: res.data.distanceText,
+                     distanceValue: res.data.distanceValue,
+                     durationText: res.data.durationText,
+                     durationValue: res.data.durationValue
+                  })
+               }
+
+               return resolve({
+                  errorMessage: res.errorMessage
+               })
+
+            });
+
+         })
+
+      }
+      return null
+   };
+
+   const calcScheduleRoutes = freeSchedule.usersSchedule.map(user => {
+      return new Promise(resolveUser => {
+         let userPeriod = []
+         user.userPeriod.map(date => {
+            if (!date) {
+               return []
+            }
+            const datePromise = new Promise(resolveDate => {
+               if (date.fullLoad) {
+                  resolveDate(date)
+               }
+               const dateData = {
+                  ...date,
+                  roadmap: date.roadmap.map(roadItem => {
+                     return new Promise(resolveRoadItem => {
+                        if (roadItem.type !== 'params') {
+                           resolveRoadItem(roadItem)
+                        }
+
+                        // filter for not calc base address
+                        const getFilteredAddrParams = (o, d) => {
+                           const currentUser = getState().dashboard.users.find(dashUser => dashUser.id === user.userId)
+                           const baseAddr = currentUser.baseAddress
+                           const selectedAddress = getState().schedule.selectedAddress.addressString
+                           const currentUserBaseParams = getState().schedule.selectedAddress.usersParams.find(paramsUser => paramsUser.userId === user.userId)
+
+                           if (o === baseAddr && d === selectedAddress || o === selectedAddress && d === baseAddr) {
+                              return {
+                                 distanceText: currentUserBaseParams.params.distanceText,
+                                 distanceValue: currentUserBaseParams.params.distanceValue,
+                                 durationText: currentUserBaseParams.params.durationText,
+                                 durationValue: currentUserBaseParams.params.durationValue,
+                              }
+                           }
+                           return getAddrParams(o, d)
+
+                        }
+                        const params1 = getFilteredAddrParams(roadItem.origin_1, roadItem.destination_1)
+                        const params2 = getFilteredAddrParams(roadItem.origin_2, roadItem.destination_2)
+
+                        Promise.all([params1, params2]).then((data) => {
+                           let totalDistance = null
+                           if (data[0] && data[1]) {
+                              totalDistance = data[0].distanceValue + data[1].distanceValue
+                           }
+                           const resRoadItem = {
+                              ...roadItem,
+                              params_1: data[0] ? data[0] : null,
+                              params_2: data[1] ? data[1] : null,
+                              totalDistance: totalDistance,
+                              totalText: totalDistance && totalDistance.toFixed(1) + " km"
+                           }
+                           resolveRoadItem(resRoadItem)
+                        });
+
+                     })
+                  })
+               }
+
+               Promise.all(dateData.roadmap).then((data) => {
+                  const closestTrip = !date.fullLoad ? getClosestTrip(data) : 0
+
+                  //set closest trip
+                  const roadmapWithClosestTrip = data.map(item => {
+                     if (item.type === "params") {
+                        const isClosest = item.totalDistance === closestTrip.totalDistance
+                        return {
+                           ...item,
+                           closestTrip: isClosest
+                        }
+                     }
+                     return item
+                  })
+
+                  //resolve data
+                  const resDateData = {
+                     ...dateData,
+                     closestDistance: closestTrip ? closestTrip.totalDistance : null,
+                     closestText: closestTrip ? closestTrip.totalText : null,
+                     roadmap: roadmapWithClosestTrip
+                  }
+                  resolveDate(resDateData)
+               });
+            })
+            userPeriod.push(datePromise)
+         })
+
+
+         Promise.all(userPeriod).then((data) => {
+            const closestDay = getClosestDay(data)
+
+            //set closest day
+            const filterPeriodOfEmpty = data.filter(day => day.closestDistance)
+            const userPeriodWithClosestDay = filterPeriodOfEmpty.map(day => {
+               const isClosest = day.closestDistance === closestDay.closestDistance
+               isClosest && dispatch(selectDate(day.date))
+               return {
+                  ...day,
+                  closest: isClosest
+               }
+               return day
+            })
+
+            const resUserData = {
+               ...user,
+               closestDistance: closestDay ? closestDay.closestDistance : null,
+               closestText: closestDay ? closestDay.closestText : null,
+               userPeriod: userPeriodWithClosestDay
+            }
+            resolveUser(resUserData)
+
+         });
+
+      })
+
+   })
+
+   // CALCULATED ROUTES Free Schedule
+   Promise.all(calcScheduleRoutes).then((resSchedule) => {
+      const closestUser = getClosestUser(resSchedule) || 0
+
+      //set closest user
+      const scheduleWithClosestUser = resSchedule.map(user => {
+         const isClosest = user.closestDistance === closestUser.closestDistance
+         return {
+            ...user,
+            closest: isClosest
+         }
+         return user
+      })
+
+      function sortUsersClosest(a, b) {
+         if (a.closestDistance > b.closestDistance) {
+            return 1;
+         }
+         if (a.closestDistance < b.closestDistance) {
+            return -1;
+         }
+         return 0;
+      }
+
+      const calculatedSchedule = {
+         period: getState().schedule.freeSchedule.period,
+         usersSchedule: scheduleWithClosestUser.sort(sortUsersClosest).filter(user => user.closestDistance)
+      }
+      dispatch(setCalendarPeriodData(calculatedSchedule))
+      dispatch(selectUser(closestUser.userId))
+      dispatch(toggleIsFetchingRoutes(false))
+      dispatch(toggleIsRoutesInit(true))
+
+   });
+}
+
 
 export default scheduleReducer;

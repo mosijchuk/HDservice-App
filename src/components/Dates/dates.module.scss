@@ -1,51 +1,5 @@
 @import "./../scss/components.module.scss";
 
-.datesWrap {
-  .item {
-    padding: 10px 20px;
-    background: $w;
-    width: 100%;
-    box-sizing: border-box;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid rgba(253, 204, 122, 0.27);
-
-    p {
-      font-size: 16px;
-    }
-
-    span {
-      background-color: rgba(255, 255, 255, 0.53);
-      border: 1px solid #fee7c1;
-      border-radius: 30px;
-      font-size: 12px;
-      color: #000;
-      padding: 5px 10px;
-
-      &.green {
-        background-color: $green;
-        border-color: $green;
-        color: $w;
-      }
-
-      &.red {
-        background-color: #f98554;
-        border-color: #f98554;
-      }
-    }
-
-    &.priority_1 {
-      background: $p1;
-    }
-    &.priority_2 {
-      background: $p2;
-    }
-    &.priority_3 {
-      background: $p3;
-    }
-    &.priority_0 {
-      background: $p0;
-    }
-  }
+.dates {
+  width: 100%;
 }

@@ -1,30 +1,24 @@
 import React, { useState, useRef } from "react";
 import { connect } from "react-redux";
-import AddressSearch from "./AddressSearch";
+import EmployeesPanel from "./EmployeesPanel";
 import {
-  findAddress,
-  selectUser,
-  selectAddress,
-  clearAddress,
-  getFreeSchedule
+  selectUser
 } from "../../redux/scheduleReducer";
 
-const AddressSearchContainer = props => {
-  return <AddressSearch {...props} />;
+const EmployeesPanelContainer = props => {
+  return <EmployeesPanel {...props} />;
 };
 
 const mapStateToProps = state => ({
   searchResults: state.schedule.searchResults,
   selectedUser: state.schedule.selectedUser,
   selectedAddress: state.schedule.selectedAddress,
+  freeSchedule: state.schedule.freeSchedule,
+  prevAction: state.schedule.prevAction,
   isFetchingAddress: state.schedule.isFetchingAddress,
   isFetchingMeetings: state.schedule.isFetchingMeetings
 });
 
 export default connect(mapStateToProps, {
-  findAddress,
-  selectUser,
-  selectAddress,
-  clearAddress,
-  getFreeSchedule
-})(AddressSearchContainer);
+  selectUser
+})(EmployeesPanelContainer);

@@ -2,7 +2,7 @@ const randomPlaces = [
     'Tampere, 16, Kyiv',
     'Igorya Shamo, 20/1, Kyiv',
     'Rusanivskij bulvar, 10, Kyiv',
-    'Moskovska, 46/2, Kyiv',
+    'Pokrovska, 46/2, Kyiv',
     'Shota Rustaveli, 16, Kyiv',
     'Danila Sherbakivskogo, 58, Kyiv',
     'Stecenka, 21, Kyiv',

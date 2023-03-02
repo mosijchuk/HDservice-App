@@ -7,8 +7,9 @@
 
   input {
     height: 48px;
-    border-radius: 5px;
-    border: 1px solid $gline;
+    border-radius: 2px;
+    border: none;
+    box-shadow: 0 0 10px 10px rgba(62, 71, 192, 0.04);
     width: 100%;
     box-sizing: border-box;
     padding: 0 15px;

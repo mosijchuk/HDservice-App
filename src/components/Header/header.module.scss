@@ -6,9 +6,9 @@
   right: 0;
   top: 0;
   background-color: $g;
-  height: 65px;
+  height: 55px;
   padding: 0 15px;
-  z-index: 9999;
+  z-index: 999;
 
   .container {
     height: 100%;
@@ -30,7 +30,7 @@
         align-items: center;
 
         img {
-          height: 38px;
+          height: 32px;
         }
       }
 
@@ -42,6 +42,8 @@
 
         p {
           margin-right: 16px;
+          font-weight: 900;
+          font-size: 16px;
         }
 
         .item {
@@ -90,6 +92,17 @@
           }
         }
       }
+
+      .load {
+        flex-direction: column;
+        align-items: flex-start;
+
+        span {
+          color: $btx;
+          font-size: 12px;
+          font-weight: 600;
+        }
+      }
     }
 
     &__right {
@@ -102,6 +115,10 @@
           display: flex;
           flex-direction: column;
           align-items: flex-end;
+
+          p {
+            letter-spacing: .05em;
+          }
 
           small {
             font-size: 9px;
@@ -116,7 +133,7 @@
           img {
             height: 40px;
             width: 40px;
-            border-radius: 100%;
+            border-radius: 3px;
           }
         }
       }

@@ -1,70 +1,102 @@
 import React from "react";
-import * as axios from "axios";
+import axios  from "axios";
+import {getCookie} from "../redux/authReducer";
 
-const instanceProfObivka = axios.create({
-  baseURL: "https://prof-obivka.com/api/v1/"
-});
-
-const yandexApiKey = "b2a43d5b-2b42-4172-a6cf-a21c3c466e77";
-const instanceYandex = axios.create({
-  baseURL: `https://geocode-maps.yandex.ru/1.x/`
+const instanceHDservice = axios.create({
+    baseURL: "http://localhost:4000/api/",
+    headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, PUT, POST, DELETE, HEAD, OPTIONS"
+    }
 });
 
 const serialize = obj => {
-  var str = [];
-  for (var p in obj)
-    if (obj.hasOwnProperty(p)) {
-      str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
-    }
-  return str.join("&");
+    var str = [];
+    for (var p in obj)
+        if (obj.hasOwnProperty(p)) {
+            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+        }
+    return str.join("&");
 };
 
-export const YandexAPI = {
-  findAddress(address) {
-    return instanceYandex
-      .get(`?apikey=${yandexApiKey}&format=json&geocode=${address}`)
-      .then(data => {
-        return data.data;
-      });
-  }
-};
 
-export const ObivkaAPI = {
-  getAddressParams(baseAddress, clientAddress) {
-    const data = {
-      origin: baseAddress,
-      destination: clientAddress
-    };
-    return instanceProfObivka
-      .post(`address`, serialize(data))
-      .then(response => {
-        return response;
-      });
-  },
-  getMeetings(userId) {
-    return instanceProfObivka.get(`meetings?userId=${userId}`);
-  }
+export const HDserviceAPI = {
+    findAddress(address) {
+        return instanceHDservice
+            .get(`geo/find_address/?address=${address}&token=${getCookie('token')}`)
+            .then(response => {
+                return response.data
+            });
+    },
+    getAddressParams(dataOrigin, dataDestination) {
+        return instanceHDservice
+            .get(`geo/address/?o=${dataOrigin}&d=${dataDestination}&token=${getCookie('token')}`)
+            .then(response => {
+                return response
+            });
+    },
+    getMeetings(userId) {
+        return instanceHDservice.get(`crm/meetings/?userId=${userId}&token=${getCookie('token')}`);
+    },
+    getDateSchedule(users, dates) {
+        return instanceHDservice
+            .post(`crm/schedule`, {
+                users,
+                dates,
+                token: getCookie('token')
+            })
+            .then(response => {
+                return response.data;
+            });
+    },
+    getReserves() {
+        return instanceHDservice.get(`crm/reserve/?token=${getCookie('token')}`);
+    },
+    createReserve(employee, date, time) {
+        const data = {
+            employee,
+            date,
+            time,
+            name: 'admin',
+            token: getCookie('token')
+        };
+        return instanceHDservice
+            .post(`crm/reserve`, data)
+            .then(response => {
+                return response;
+            });
+    },
+    getStaff() {
+        return instanceHDservice
+            .post(`crm/getstaff`, {
+                list: 'all',
+                token: getCookie('token')
+            })
+            .then(response => {
+                return response.data;
+            });
+    },
 };
 
 //old
 export const AuthAPI = {
-  authMe(token) {
-    return instanceProfObivka
-      .post(`authme`, serialize({ token }))
-      .then(response => {
-        return response.data;
-      });
-  },
-  login(email, password) {
-    return instanceProfObivka
-      .post(`login`, serialize({ email, password }))
-      .then(response => {
-        return response.data;
-      });
-  },
-  logout() {
-    return instanceProfObivka.delete(`auth/login`).then(response => {
-      return response.data;
-    });
-  }
+    authMe(token) {
+        return instanceHDservice
+            .post(`auth/authme`, {token})
+            .then(response => {
+                return response.data;
+            });
+    },
+    login(email, password) {
+        return instanceHDservice
+            .post(`auth/login`, {email, password})
+            .then(response => {
+                return response.data;
+            });
+    },
+    logout() {
+        return instanceHDservice.delete(`auth/login/`).then(response => {
+            return response.data;
+        });
+    }
 };

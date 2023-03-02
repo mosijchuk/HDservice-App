@@ -1,22 +1,21 @@
 import React from "react";
-import Dates from "./Dates";
-import { connect } from "react-redux";
+import Roadmap from "./Roadmap";
+import {connect} from "react-redux";
 import {getSchedule, setIsOnlyBase, createTimeReserve, selectAddress, selectDate} from "../../redux/scheduleReducer";
 
-const DatesContainer = props => {
-const selectedUserBaseAddress = props.selectedAddress.usersParams && props.selectedAddress.usersParams.find(eachParams => eachParams.userId === props.selectedUser.id).params
-  return <Dates {...props} selectedUserBaseAddress={selectedUserBaseAddress} />;
+const RoadmapContainer = props => {
+    if (!props.selectedUser || !props.selectedDate || !props.freeSchedule) {
+        return <></>
+    }
+    return <Roadmap {...props} />;
 };
 
 const mapStateToProps = state => ({
-  selectedUser: state.schedule.selectedUser,
-  selectedDate: state.schedule.selectedDate,
-  selectedAddress: state.schedule.selectedAddress,
-  selectedPeriod: state.schedule.freeSchedule.period,
-  freeSchedule: state.schedule.freeSchedule,
-  isFetchingSchedule: state.schedule.isFetchingSchedule,
-  isOnlyBaseRoute: state.schedule.isOnlyBaseRoute,
-  selectedDepartment: state.dashboard.selectedDepartment
+    selectedUser: state.schedule.selectedUser.id,
+    selectedUserName: state.schedule.selectedUser.name,
+    selectedDate: state.schedule.selectedDate.date,
+    freeSchedule: state.schedule.freeSchedule.usersSchedule,
+    isFetchingSchedule: state.schedule.isFetchingSchedule,
 });
 
-export default connect(mapStateToProps, {selectDate, setIsOnlyBase, createTimeReserve })(DatesContainer);
+export default connect(mapStateToProps, {selectDate, setIsOnlyBase, createTimeReserve})(RoadmapContainer);

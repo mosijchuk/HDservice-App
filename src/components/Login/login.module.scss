@@ -1,5 +1,41 @@
 @import "./../scss/components.module.scss";
 
+.loginPage {
+  position: relative;
+  background-color: $w;
+  overflow: hidden;
+
+  h1 {
+    margin: 0;
+    font-weight: 700;
+    font-size: 40px;
+    line-height: 48px;
+    letter-spacing: -.02em;
+    color: $b;
+    margin-bottom: 15px;
+  }
+
+  .headerLogoWrap {
+    position: absolute;
+    top: 22px;
+    left: 0;
+    width: 100%;
+    min-width: 1200px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+
+    a {
+      outline: none;
+
+      img {
+        height: 35px;
+      }
+    }
+  }
+  }
+
+
 .loginWrap {
   display: flex;
   flex-direction: column;
@@ -15,16 +51,33 @@
     width: 100%;
     max-width: 230px;
     margin: 15px;
+  }
+}
 
-    img.captchaUrl {
-      height: 60px;
-      margin-bottom: 5px;
-    }
+.sectionHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  span {
+    margin-top: 10px;
+    color: $btx;
+    font-size: 12px;
+    font-weight: 600;
   }
 }
 
 .errorSubmit {
-  color: $red;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+
+  small {
+    color: $red;
+    text-align: center;
+    letter-spacing: .2em;
+  }
 }
 
 .fetchingStatus {
@@ -32,8 +85,33 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-top: 15px;
+  min-width: 200px;
 
   small {
     position: absolute;
+    letter-spacing: .2em;
   }
+}
+
+.signWrap {
+  margin-top: 25px;
+  max-width: 200px;
+  text-align: center;
+
+  h2 {
+    margin-bottom: 20px;
+  }
+
+  button {
+    margin-top: 25px;
+  }
+}
+
+.spot {
+  position: absolute;
+  overflow: hidden;
+  bottom: -126px;
+  left: -135px;
+  z-index: 6;
 }
