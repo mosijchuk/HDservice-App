@@ -1,0 +1,120 @@
+@import "./../scss/components.module.scss";
+
+@keyframes bounce {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotateZ(0deg);
+  }
+  to {
+    transform: rotateZ(360deg);
+  }
+}
+
+@keyframes point {
+  0% {
+    transform: scale(2);
+  }
+  50% {
+    transform: scale(5);
+  }
+  100% {
+    transform: scale(2);
+  }
+}
+
+
+@keyframes lspin {
+  from {
+    transform: rotateZ(0deg);
+  }
+  to {
+    transform: rotateZ(-360deg);
+  }
+}
+
+.cityImageWrap {
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  margin-top: 100px;
+}
+
+.mapWrap {
+  position: relative;
+  height: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  img {
+    height: 100%;
+  }
+
+  .findWrap {
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    transform-origin: -10px -10px;
+    margin-left: 55px;
+    margin-top: 30px;
+    animation: spin 2s infinite linear;
+
+    svg {
+      width: 100%;
+      height: 100%;
+      fill: $y;
+      animation: lspin 2s infinite linear;
+    }
+  }
+
+  .scheduleWrap {
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    margin-left: 10px;
+    margin-top: -20px;
+    animation: bounce 1s infinite;
+
+    svg {
+      width: 100%;
+      height: 100%;
+      fill: $y;
+    }
+  }
+
+  .routePoint {
+    position: absolute;
+    left: 50px;
+    top: 77px;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background-color: $y;
+    opacity: .5;
+
+    &:before {
+      content: '';
+      position: absolute;
+      border-radius: 50%;
+      width: 100%;
+      height: 100%;
+      transform-origin: center;
+      transform: scale(2);
+      opacity: .2;
+      background-color: $y;
+      animation: point 1s infinite linear;
+    }
+  }
+}

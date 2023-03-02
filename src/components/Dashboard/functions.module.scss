@@ -1,0 +1,53 @@
+@import "./../scss/components.module.scss";
+
+.itemsWrap {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-gap: 15px;
+}
+
+.item {
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: $w;
+  box-shadow: 0 0 10px 10px rgba(62, 71, 192, 0.04);
+  border-radius: 5px;
+  padding: 15px;
+  display: flex;
+  transition: all .3s;
+
+  p {
+    margin-top: 5px;
+  }
+
+  &:hover {
+    background-color: $g;
+  }
+}
+
+.iconWrap {
+  margin-right: 15px;
+
+  svg {
+    fill: $y !important;
+    width: 46px;
+    height: 46px;
+  }
+}
+
+.nameWrap {
+
+  h3 {
+    color: $b;
+  }
+
+  p {
+    font-size: 12px;
+    color: $gt;
+  }
+}
+
+.transparent {
+  background-color: transparent;
+}

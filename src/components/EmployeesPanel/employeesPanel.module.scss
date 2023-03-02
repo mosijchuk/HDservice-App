@@ -1,0 +1,14 @@
+@import "./../scss/components.module.scss";
+
+.employeesPanel {
+
+  .wrapper {
+    position: relative;
+    z-index: 22;
+  }
+}
+
+.MuiTab-labelIcon .MuiTab-wrapper > *:first-child {
+  margin-bottom: 0!important;
+  font-weight: 900!important;
+}

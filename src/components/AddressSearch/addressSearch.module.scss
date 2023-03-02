@@ -1,0 +1,200 @@
+@import "./../scss/components.module.scss";
+
+.addressSearch {
+  border-radius: .25rem;
+  padding: 15px 0;
+  display: grid;
+  grid-template-columns: 400px 1fr 450px;
+  grid-gap: 1rem;
+  margin-top: .25rem;
+
+  .wrapper {
+    position: relative;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+    z-index: 999;
+    min-width: 562px;
+  }
+
+  .left,
+  .right {
+    display: flex;
+    align-items: flex-start;
+  }
+
+  .left {
+    width: 100%;
+  }
+
+  .right {
+    width: 100%;
+  }
+
+  .selectEmployee {
+    display: flex;
+    align-items: center;
+
+    h2 {
+      margin-right: 18px;
+    }
+  }
+
+  .sideWrap {
+    display: flex;
+    align-items: center;
+    box-shadow: 0 0 10px 10px rgba(62, 71, 192, 0.04);
+    padding: 0 15px;
+  }
+
+  .inputWrap {
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
+
+
+    .inputBox {
+      position: relative;
+      display: flex;
+      align-items: center;
+      padding: 0 10px;
+      width: 100%;
+      box-sizing: border-box;
+      height: 50px;
+      border-radius: 5px;
+      background-color: $w;
+      box-shadow: 0 0 10px 10px rgba(62, 71, 192, 0.04);
+
+      input {
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+        font-size: 14px;
+        outline: none;
+        border: none;
+        margin-left: 5px;
+      }
+
+      &.success {
+        background-color: $g;
+
+        input {
+          background-color: $g;
+          color: $y;
+          pointer-events: none;
+          font-weight: 600;
+        }
+
+        svg {
+          fill: $y;
+        }
+      }
+    }
+
+    .searchVariables {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+      z-index: 999;
+
+      .searchItem {
+        background-color: $w;
+        border-bottom: 1px solid $gline;
+        cursor: pointer;
+        padding: 8px 16px;
+        transition: all 0.3s;
+
+        p {
+          color: $b;
+          font-size: 13px;
+          line-height: 14px;
+          margin: 0;
+          font-weight: 700;
+        }
+
+        small {
+          font-size: 12px;
+          color: $gt;
+          font-weight: 700;
+        }
+
+        &:hover {
+          background-color: $g;
+        }
+      }
+    }
+  }
+}
+
+.snackbarWrap {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.snackBar {
+  background-color: $green !important;
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 13px !important;
+  color: $w !important;
+  box-shadow: 0px 1px 18px 0px rgba(0, 0, 0, 0.05) !important;
+  margin-top: 12px;
+
+  div {
+    max-width: 70%;
+  }
+}
+
+.redBar {
+  background-color: #fa8454 !important;
+}
+
+.errorBar {
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  border-radius: 4px;
+  box-shadow: 0px 1px 18px 0px rgba(0, 0, 0, 0.05);
+  background-color: $red;
+  color: $w;
+  width: 100%;
+  height: 45px;
+  box-sizing: border-box;
+  margin-top: 12px;
+
+  p {
+    margin-left: 8px;
+  }
+}
+
+.btnCopy {
+  padding: 10px !important;
+  color: $w !important;
+  background-color: $y !important;
+  border-radius: 2px !important;
+  transition: all 0.3s !important;
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+  font-weight: 700 !important;
+  font-size: 13px !important;
+  line-height: 16px !important;
+  letter-spacing: .1em !important;
+
+  &:hover {
+    opacity: .9 !important;
+  }
+}
+
+.preloaderDescription {
+  display: flex;
+  align-items: center;
+
+  p {
+    margin-left: 12px;
+  }
+}

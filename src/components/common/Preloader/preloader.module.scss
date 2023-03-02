@@ -1,0 +1,19 @@
+@import "./../../scss/components.module.scss";
+
+.preloader {
+  &.medium {
+    display: flex;
+    align-items: center;
+    height: 36px;
+  }
+  &.small {
+    display: flex;
+    align-items: center;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

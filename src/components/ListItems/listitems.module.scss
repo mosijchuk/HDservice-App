@@ -1,0 +1,85 @@
+@import "../scss/components.module";
+
+.ListItems {
+  width: 100%;
+  box-shadow: 0 0 10px 10px rgba(62, 71, 192, 0.04);
+
+  .Item {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 50px 70px;
+    height: 50px;
+    cursor: pointer;
+    margin-bottom: 1px;
+    background-color: $w;
+    transition: all .1s;
+    z-index: 1;
+
+    span {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      &.name {
+        justify-content: flex-start;
+        padding-left: 10px;
+      }
+
+      &.note {
+
+      }
+
+      &.params {
+        border-left: 1px solid $g;
+        padding: 0 5px;
+
+        &.warning {
+          background-color: $pig;
+        }
+      }
+    }
+
+
+
+    &:hover {
+      background-color: rgba(62, 72, 192, 0.1);
+    }
+
+    &.active {
+      background-color: $y;
+
+      span {
+        color: $w;
+
+        .mainColor {
+          fill: $w !important;
+        }
+
+        &.params {
+
+          &.warning {
+            background-color: $y;
+            color: $pig;
+          }
+        }
+      }
+
+
+
+    }
+
+  }
+}
+
+.mainColor {
+  fill: $y !important;
+}
+
+.mainTransparentColor {
+  fill: #a2a2a2 !important;
+}
+
+.greenColor {
+  fill: $green !important;
+}
+

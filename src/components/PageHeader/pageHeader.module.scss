@@ -1,0 +1,26 @@
+@import "./../scss/components.module.scss";
+
+.pageHeader {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0 15px;
+
+  h1 {
+    font-size: 20px;
+  }
+
+  p {
+    font-size: 12px;
+  }
+}
+
+.mainWrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.headerWrap {
+  display: flex;
+  flex-direction: column;
+}

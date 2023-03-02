@@ -1,0 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap');
+@import "./components.module.scss";
+
+body {
+  min-width: 1200px;
+  background-color: $g;
+
+  * {
+    font-family: "Source Sans Pro",sans-serif;
+  }
+}
+
+.app_wrapper {
+  padding-top: 65px;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
