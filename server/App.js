@@ -16,7 +16,7 @@ app.use("/api/geo", require("./routes/geo.routes"));
 async function start() {
   try {
     app.listen(PORT, () => {
-      console.log(`server started on port ${PORT}`);
+      console.log(`Server started on port ${PORT}`);
     });
   } catch (e) {
     console.log(`Server error ${e.message}`);
