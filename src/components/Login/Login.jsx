@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from "react";
 import s from "./login.module.scss";
-import logo from "./../../assets/img/logo.svg";
+import logo from "../../assets/img/logo.svg";
 import {Field, reduxForm} from "redux-form";
 import {Input} from "../common/Form/FormItems";
 import {required} from "../common/Form/validators";
-import arrow from "./../../assets/img/btnArrow.svg"
+import arrow from "../../assets/img/btnArrow.svg"
 
 const LoginForm = props => {
     return (

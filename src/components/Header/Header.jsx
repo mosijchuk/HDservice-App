@@ -1,6 +1,6 @@
 import React from "react";
 import s from "./header.module.scss";
-import logo from "./../../assets/img/logo.svg";
+import logo from "../../assets/img/logo.svg";
 import PropTypes from "prop-types";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import Avatar from "@material-ui/core/Avatar";
@@ -10,7 +10,7 @@ import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import ListItemText from "@material-ui/core/ListItemText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Dialog from "@material-ui/core/Dialog";
-import Fav from "./../../assets/img/fav.png"
+import Fav from "../../assets/img/fav.png"
 import PageHeader from "../PageHeader/PageHeader";
 
 function AccountDialog(props) {

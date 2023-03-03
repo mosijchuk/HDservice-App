@@ -1,4 +1,4 @@
-import {AuthAPI} from "./../API/api";
+import {AuthAPI} from "../API/api";
 import {stopSubmit} from "redux-form";
 import {getStaffData} from "./dashboardReducer";
 

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import s from "./cityimage.module.scss";
-import map from "./../../assets/img/map.svg"
+import map from "../../assets/img/map.svg"
 import SearchIcon from '@material-ui/icons/Search';
 import PeopleIcon from '@material-ui/icons/People';
 import EventNoteIcon from '@material-ui/icons/EventNote';
